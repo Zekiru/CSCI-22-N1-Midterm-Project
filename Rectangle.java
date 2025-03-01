@@ -27,29 +27,30 @@ public class Rectangle implements DrawingObject{
         g2d.setTransform(reset);
     }
 
-    @Override
-    public DrawingObject getShape() {
+    public DrawingObject getDrawObject() {
         return this;
     }
 
-    @Override
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    @Override
-    public void translateX(double distance) {
-        x += distance;
+    public void setSize(double w, double h) {
+        this.w = w;
+        this.h = h;
     }
 
-    @Override
-    public void translateY(double distance) {
-        y += distance;
+    public void setColor(Color c) {
+        this.color = c;
     }
 
-    @Override
-    public void translateRotation(double rotation) {
+    public void adjustPosition(double x, double y) {
+        this.x += x;
+        this.y += y;
+    }
+
+    public void adjustRotation(double rotation) {
         this.rotation += rotation;
     }
 }

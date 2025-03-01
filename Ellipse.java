@@ -1,15 +1,16 @@
 import java.awt.*;
 import java.awt.geom.*;
 
-public class Circle implements DrawingObject{
+public class Ellipse implements DrawingObject{
     
-    private double x, y, size, rotation;
+    private double x, y, w, h, rotation;
     private Color color;
 
-    public Circle(double x, double y, double size, Color color) {
+    public Ellipse(double x, double y, double w, double h, Color color) {
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.w = w;
+        this.h = h;
         this.rotation = 0;
         this.color = color;
     }
@@ -17,10 +18,10 @@ public class Circle implements DrawingObject{
     @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
-        Ellipse2D.Double shape = new Ellipse2D.Double(x, y, size, size);
+        Ellipse2D.Double shape = new Ellipse2D.Double(x, y, w, h);
         
         g2d.setColor(color);
-        g2d.rotate(Math.toRadians(rotation), x + (size/2),  y + (size/2)); 
+        g2d.rotate(Math.toRadians(rotation), x + (w/2),  y + (h/2)); 
 
         g2d.fill(shape);
         g2d.setTransform(reset);
@@ -36,7 +37,8 @@ public class Circle implements DrawingObject{
     }
 
     public void setSize(double w, double h) {
-        this.size = (w > h) ? w: h;
+        this.w = w;
+        this.h = h;
     }
 
     public void setColor(Color c) {

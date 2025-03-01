@@ -36,33 +36,33 @@ public class Line implements DrawingObject{
         g2d.setTransform(reset);
     }
 
-    @Override
-    public DrawingObject getShape() {
+    public DrawingObject getDrawObject() {
         return this;
     }
 
-    @Override
-    public void setPosition(double x, double y) {
-        this.x1 = x;
-        this.y1 = y;
+    public void setPosition(double x, double y) { 
         this.x2 += x - x1;
         this.y2 += y - y1;
+        this.x1 = x;
+        this.y1 = y;
     }
 
-    @Override
-    public void translateX(double distance) {
-        x1 += distance;
-        x2 += distance;
+    public void setSize(double w, double h) {
+        this.size = (w > h) ? w: h;
     }
 
-    @Override
-    public void translateY(double distance) {
-        y1 += distance;
-        y2 += distance;
+    public void setColor(Color c) {
+        this.color = c;
     }
 
-    @Override
-    public void translateRotation(double rotation) {
+    public void adjustPosition(double x, double y) {
+        this.x1 += x;
+        this.y1 += y;
+        this.x2 += x;
+        this.y2 += y;
+    }
+
+    public void adjustRotation(double rotation) {
         this.rotation += rotation;
     }
 }

@@ -39,9 +39,12 @@ public class EditorCanvas extends JComponent {
 
     public void addDrawingObject(DrawingObject d) {
         drawObjects.add(d);
+        this.repaint();
     }
 
     public void removeLastDrawingObject() {
+        if (drawObjects.size() < 1) return;
         drawObjects.remove(drawObjects.size() - 1);
+        this.repaint();
     }
 }

@@ -49,14 +49,11 @@ public class SceneCanvas extends JComponent implements ActionListener {
     // Perform methods per ActionEvent triggered by the Timer:
     @Override
     public void actionPerformed(ActionEvent e) {
-        s1.translateX(.2);
-        s1.translateY(.3);
-        s1.translateRotation(.4);
-        c1.translateX(.2);
-        c1.translateY(-.15);
-        l1.translateX(-.03);
-        l1.translateY(-.15);
-        l1.translateRotation(-.2);
+        s1.adjustPosition(.2, .3);
+        s1.adjustRotation(.4);
+        c1.adjustPosition(.2, -.15);
+        l1.adjustPosition(-.03, -.15);
+        l1.adjustRotation(-.2);
         this.repaint();
     }
 
