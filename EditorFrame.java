@@ -67,7 +67,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         panel.add(mouse);
         cp.add(panel, BorderLayout.SOUTH);
 
-        frame.setTitle("Animation");
+        frame.setTitle("Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
