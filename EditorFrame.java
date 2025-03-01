@@ -17,6 +17,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
     private JPanel panel;
     private JLabel mouse;
+    private JTextField size;
     private ArrayList<JButton> buttons;
     private ArrayList<JTextField> rgb;
 
@@ -38,7 +39,10 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         buttons = new ArrayList<JButton>();
         buttons.add(new JButton("Rectangle"));
         buttons.add(new JButton("Ellipse"));
+        buttons.add(new JButton("Line"));
         buttons.add(new JButton("Undo"));
+
+        size = new JTextField("10");
 
         rgb = new ArrayList<JTextField>();
         rgb.add(new JTextField("0"));
@@ -52,12 +56,14 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         cp.add(editorCanvas, BorderLayout.CENTER);
 
-        panel.setLayout(new GridLayout(1,2));
+        panel.setLayout(new GridLayout(10,1));
 
         for (JButton button: buttons) {
             panel.add(button);
             button.addActionListener(this);
         }
+
+        panel.add(size);
 
         for (JTextField color: rgb) {
             panel.add(color);
@@ -65,7 +71,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         }
 
         panel.add(mouse);
-        cp.add(panel, BorderLayout.SOUTH);
+        cp.add(panel, BorderLayout.EAST);
 
         frame.setTitle("Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,6 +145,37 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
     }
 
+    public void createLine(MouseEvent e, boolean init) {
+        double setSize = Integer.parseInt(size.getText());
+
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            drawObj = new Line(x1, y1, x1, y1, setSize, Color.BLUE);
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = e.getX();
+        y2 = e.getY();
+
+        // double x = (x2 > x1) ? x1: x2;
+        // double y = (y2 > y1) ? y1: y2;
+
+        int r = Integer.parseInt(rgb.get(0).getText());
+        int g = Integer.parseInt(rgb.get(1).getText());
+        int b = Integer.parseInt(rgb.get(2).getText());
+
+        Color color = new Color(r, g , b);
+
+        drawObj = new Line(x1, y1, x2, y2, setSize, color);
+
+        editorCanvas.removeLastDrawingObject();
+        editorCanvas.addDrawingObject(drawObj);
+
+        // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
+    }
+
     private void drawProcess(MouseEvent e, boolean init) {
         if (drawObject == "Rectangle") {
             createRectangle(e, init);
@@ -147,6 +184,11 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         if (drawObject == "Ellipse") {
             createEllipse(e, init);
+            return;
+        }
+
+        if (drawObject == "Line") {
+            createLine(e, init);
             return;
         }
     }
@@ -159,6 +201,10 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         if (e.getSource() == buttons.get(1)) {
             drawObject = "Ellipse";
+        }
+
+        if (e.getSource() == buttons.get(2)) {
+            drawObject = "Line";
         }
 
         if (e.getSource() == buttons.get(buttons.size() - 1)) {

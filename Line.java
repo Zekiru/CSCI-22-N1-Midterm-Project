@@ -16,16 +16,50 @@ public class Line implements DrawingObject{
         this.color = color;
     }
 
+    public double[][] diameterEndPoints(double a, double b, double m, double r) {
+        // Calculate the discriminant (the part inside the square root)
+        double discriminant = Math.pow(-2 * a - 2 * m * m * a, 2) 
+            - 4 * (1 + m * m) * (Math.pow(a, 2) + m * m * Math.pow(a, 2) - Math.pow(r, 2));
+
+        // If the discriminant is negative, there is no real solution
+        if (discriminant < 0) {
+            throw new IllegalArgumentException("No real solution for x, y.");
+        }
+
+        // Calculate x using the quadratic formula (both + and - cases)
+        double x1 = (2 * a + 2 * m * m * a + Math.sqrt(discriminant)) / (2 * (1 + m * m));
+        double x2 = (2 * a + 2 * m * m * a - Math.sqrt(discriminant)) / (2 * (1 + m * m));
+
+        // Calculate y for each x value
+        double y1 = m * (x1 - a) + b;
+        double y2 = m * (x2 - a) + b;
+
+        double[][] endpoints = {{x1, y1}, {x2, y2}};
+
+        return endpoints;
+    }
+
     @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
         Path2D.Double line = new Path2D.Double();
+
         double rise = y2 - y1;
         double run = x2 - x1;
-        line.moveTo(x1, y1);
-        line.lineTo(x2, y2);
-        line.lineTo(x2 + size * (rise / (rise + run)), y2 - size * (run / (rise + run)));
-        line.lineTo(x1 + size * (rise / (rise + run)), y1 - size * (run / (rise + run)));
+        
+        double m1 = rise / run;
+        double m2 = -(1 / m1);
+
+        double r = size / 2;
+
+        double[][] endpoints1 = diameterEndPoints(x1, y1, m2, r);
+        double[][] endpoints2 = diameterEndPoints(x2, y2, m2, r);
+
+        line.moveTo(endpoints1[0][0], endpoints1[0][1]);
+        line.lineTo(endpoints2[0][0], endpoints2[0][1]);
+        line.lineTo(endpoints2[1][0], endpoints2[1][1]);
+        line.lineTo(endpoints1[1][0], endpoints1[1][1]);
+
         line.closePath();
         
         
