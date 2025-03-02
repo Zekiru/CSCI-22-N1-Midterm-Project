@@ -158,6 +158,11 @@ public class Path implements DrawingObject{
         return this;
     }
 
+    public double[] getPosition() {
+        double[] position = {points.get(0)[0], points.get(0)[1]};
+        return position;
+    }
+
     public void setPosition(double x, double y) {
         int i = 0;
         for (double[] point: points) {

@@ -15,6 +15,10 @@ public class Car implements DrawingObject{
 
         parts = new ArrayList<DrawingObject>();
 
+        parts.add(new Rectangle(179.000000, 245.000000, 202.000000, 78.000000, new Color(150, 154, 230)));
+        parts.add(new Triangle(179.000000, 245.000000, 210.000000, 324.000000, 148.000000, 324.000000, new Color(150, 154, 230)));
+        parts.add(new Triangle(375.000000, 251.000000, 414.000000, 322.000000, 336.000000, 322.000000, new Color(150, 154, 230)));
+
         parts.add(new Rectangle(143.000000, 315.000000, 340.000000, 87.000000, color));
         parts.add(new Ellipse(91.000000, 316.000000, 111.000000, 86.000000, color));
         parts.add(new Ellipse(436.000000, 315.000000, 86.000000, 86.000000, color));
@@ -37,8 +41,11 @@ public class Car implements DrawingObject{
         parts.add(new Circle(411.000000, 371.000000, 64.000000, new Color(60, 62, 64)));
         parts.add(new Circle(139.000000, 371.000000, 64.000000, new Color(60, 62, 64)));
 
-        // parts.add(fronttire);
-        // parts.add(reartire);
+        fronttireSpin = new Square(423, 383, 40, new Color(100, 102, 104));
+        reartireSpin = new Square(151, 383, 40, new Color(100, 102, 104));
+
+        parts.add(fronttireSpin);
+        parts.add(reartireSpin);
     }
 
     @Override
@@ -54,17 +61,25 @@ public class Car implements DrawingObject{
         g2d.setTransform(reset);
     }
 
+    public void spinTires(double speed) {
+        fronttireSpin.adjustRotation(speed);
+        reartireSpin.adjustRotation(speed);
+    }
+
     public DrawingObject getDrawObject() {
         return this;
     }
 
+    public double[] getPosition() {
+        return null;
+    }
+
     public void setPosition(double x, double y) {
-        // this.x = x;
-        // this.y = y;
+        //
     }
 
     public void setSize(double w, double h) {
-        return;
+        //
     }
 
     public void setColor(Color c) {
@@ -72,24 +87,18 @@ public class Car implements DrawingObject{
     }
 
     public void adjustPosition(double x, double y) {
-        // this.x += x;
-        // this.y += y;
+        //
     }
 
     public void adjustRotation(double rotation) {
-        // this.xRotate = x + (size/2);
-        // this.yRotate = y + (size*Math.sqrt(3)/2);
-        // this.rotation += rotation;
+        //
     }
 
     public void adjustRotation(double rotation, double x, double y) {
-        // this.xRotate = this.x + (size/2) + x;
-        // this.yRotate = this.y + (size/2) + y;
-        // this.rotation += rotation;
+        //
     }
 
     public String getAttributes() {
-        // return String.format("Hexagon(%f, %f, %f, new Color(%d, %d, %d));\n", x, y, size, color.getRed(), color.getGreen(), color.getBlue());
-        return null;
+        return "Car";
     }
 }

@@ -11,16 +11,20 @@ public class SceneCanvas extends JComponent implements ActionListener {
 
     // Instantiate shapes below:
     private DrawingObject sky = new Rectangle(0, 0, 800, 600, new Color(71, 224, 255));
-    
     private DrawingObject sun = new Circle(650, 20, 80, new Color(255, 247, 15));
+
     private DrawingObject road = new Rectangle(0.000000, 317.000000, 800, 290, new Color(25, 26, 28));
+    private DrawingObject roadStrips = new RoadStrips();
+
+
+    private DrawingObject mainCar = new Car(Color.BLUE);
 
     // Test Shapes:
-    private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
-    private DrawingObject c1 = new Circle(300, 300, 200, Color.RED);
-    private DrawingObject t1 = new Triangle(300, 300, 600, 300, 450, 500, Color.MAGENTA);
-    private DrawingObject h1 = new Hexagon(150, 400, 100, Color.ORANGE);
-    private DrawingObject l1 = new Line(50, 500, 600, 400, 50, Color.GREEN);
+    // private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
+    // private DrawingObject c1 = new Circle(300, 300, 200, Color.RED);
+    // private DrawingObject t1 = new Triangle(300, 300, 600, 300, 450, 500, Color.MAGENTA);
+    // private DrawingObject h1 = new Hexagon(150, 400, 100, Color.ORANGE);
+    // private DrawingObject l1 = new Line(50, 500, 600, 400, 50, Color.GREEN);
 
     public SceneCanvas() {
         this.setPreferredSize(new Dimension(800, 600));
@@ -30,13 +34,16 @@ public class SceneCanvas extends JComponent implements ActionListener {
         // Add instantiated shapes to the ArrayList below:
         drawObjects.add(sky);
         drawObjects.add(sun);
+
         drawObjects.add(road);
-        drawObjects.add(s1);
-        drawObjects.add(c1);
-        drawObjects.add(t1);
-        drawObjects.add(h1);
-        drawObjects.add(l1);
-        drawObjects.add(new Car(Color.BLUE));
+        drawObjects.add(roadStrips);
+
+        drawObjects.add(mainCar);
+        // drawObjects.add(s1);
+        // drawObjects.add(c1);
+        // drawObjects.add(t1);
+        // drawObjects.add(h1);
+        // drawObjects.add(l1);
 
         time.start();
     }
@@ -61,15 +68,22 @@ public class SceneCanvas extends JComponent implements ActionListener {
     // Perform methods per ActionEvent triggered by the Timer:
     @Override
     public void actionPerformed(ActionEvent e) {
-        s1.adjustPosition(.2, .3);
-        s1.adjustRotation(.4);
-        c1.adjustPosition(.2, -.15);
-        t1.adjustPosition(.3, 0);
-        t1.adjustRotation(.7);
-        h1.adjustPosition(0, -.7);
-        h1.adjustRotation(1);
-        l1.adjustPosition(-.03, -.15);
-        l1.adjustRotation(-.2);
+        // s1.adjustPosition(.2, .3);
+        // s1.adjustRotation(.4);
+        // c1.adjustPosition(.2, -.15);
+        // t1.adjustPosition(.3, 0);
+        // t1.adjustRotation(.7);
+        // h1.adjustPosition(0, -.7);
+        // h1.adjustRotation(1);
+        // l1.adjustPosition(-.03, -.15);
+        // l1.adjustRotation(-.2);
+
+        Car mainCar = (Car) this.mainCar;
+        mainCar.spinTires(15);
+
+        RoadStrips roadStrips = (RoadStrips) this.roadStrips;
+        roadStrips.moveStrips(20);
+        
         this.repaint();
     }
 

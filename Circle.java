@@ -32,6 +32,11 @@ public class Circle implements DrawingObject{
         return this;
     }
 
+    public double[] getPosition() {
+        double[] position = {this.x, this.y};
+        return position;
+    }
+
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;

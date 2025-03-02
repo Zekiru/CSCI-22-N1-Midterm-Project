@@ -86,6 +86,11 @@ public class Line implements DrawingObject{
         return this;
     }
 
+    public double[] getPosition() {
+        double[] position = {this.x1, this.y1};
+        return position;
+    }
+
     public void setPosition(double x, double y) { 
         this.x2 += x - x1;
         this.y2 += y - y1;
