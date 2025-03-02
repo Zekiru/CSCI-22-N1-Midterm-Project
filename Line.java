@@ -3,7 +3,8 @@ import java.awt.geom.*;
 
 public class Line implements DrawingObject{
     
-    private double x1, y1, x2, y2, size, rotation;
+    private double x1, y1, x2, y2, size, rotation, xRotate, yRotate;
+    // private double[][] endpoints;
     private Color color;
 
     public Line(double x1, double y1, double x2, double y2, double size, Color color) {
@@ -13,7 +14,10 @@ public class Line implements DrawingObject{
         this.y2 = y2;
         this.size = size;
         this.rotation = 0;
+        this.xRotate = (x1 + x2) / 2;
+        this.yRotate = (y1 + y2) / 2;
         this.color = color;
+        // this.endpoints = new double[4][2];
     }
 
     public double[][] diameterEndPoints(double a, double b, double m, double r) {
@@ -23,7 +27,8 @@ public class Line implements DrawingObject{
 
         // If the discriminant is negative, there is no real solution
         if (discriminant < 0) {
-            throw new IllegalArgumentException("No real solution for x, y.");
+            double[][] noSolution = {{0, 0}, {0, 0}};
+            return noSolution;
         }
 
         // Calculate x using the quadratic formula (both + and - cases)
@@ -52,19 +57,26 @@ public class Line implements DrawingObject{
 
         double r = size / 2;
 
-        double[][] endpoints1 = diameterEndPoints(x1, y1, m2, r);
-        double[][] endpoints2 = diameterEndPoints(x2, y2, m2, r);
+        if (m1 == 0) {
+            line.moveTo(x1, y1 - r);
+            line.lineTo(x2, y2 - r);
+            line.lineTo(x2, y2 + r);
+            line.lineTo(x1, y1 + r);
+        } else {
+            double[][] endpoints1 = diameterEndPoints(x1, y1, m2, r);
+            double[][] endpoints2 = diameterEndPoints(x2, y2, m2, r);
 
-        line.moveTo(endpoints1[0][0], endpoints1[0][1]);
-        line.lineTo(endpoints2[0][0], endpoints2[0][1]);
-        line.lineTo(endpoints2[1][0], endpoints2[1][1]);
-        line.lineTo(endpoints1[1][0], endpoints1[1][1]);
+            line.moveTo(endpoints1[0][0], endpoints1[0][1]);
+            line.lineTo(endpoints2[0][0], endpoints2[0][1]);
+            line.lineTo(endpoints2[1][0], endpoints2[1][1]);
+            line.lineTo(endpoints1[1][0], endpoints1[1][1]);
+        }
 
         line.closePath();
         
         
         g2d.setColor(color);
-        g2d.rotate(Math.toRadians(rotation), (x1 + x2) / 2 + (size/2),  (y1 + y2) / 2 + (size/2)); 
+        g2d.rotate(Math.toRadians(rotation), xRotate,  yRotate); 
 
         g2d.fill(line);
         g2d.setTransform(reset);
@@ -97,6 +109,18 @@ public class Line implements DrawingObject{
     }
 
     public void adjustRotation(double rotation) {
+        this.xRotate = (x1 + x2) / 2;
+        this.yRotate = (y1 + y2) / 2;
         this.rotation += rotation;
+    }
+
+    public void adjustRotation(double rotation, double x, double y) {
+        this.xRotate = (x1 + x2) / 2 + x;
+        this.yRotate = (y1 + y2) / 2 + y;
+        this.rotation += rotation;
+    }
+
+    public String getAttributes() {
+        return String.format("Line(%f, %f, %f, %f, %f, new Color(%d, %d, %d));\n", x1, y1, x2, y2, size, color.getRed(), color.getGreen(), color.getBlue());
     }
 }

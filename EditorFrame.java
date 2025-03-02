@@ -20,16 +20,13 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
     private JTextField size;
     private ArrayList<JButton> buttons;
     private ArrayList<JTextField> rgb;
+    private JPanel sampleColor;
 
     public EditorFrame() {
         frame = new JFrame();
         editorCanvas = new EditorCanvas();
         editorCanvas.addMouseListener(this);
         editorCanvas.addMouseMotionListener(this);
-
-        delay = 10;
-        time = new Timer(delay, this);
-        time.start();
 
         drawObject = "Rectangle";
 
@@ -40,14 +37,23 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         buttons.add(new JButton("Rectangle"));
         buttons.add(new JButton("Ellipse"));
         buttons.add(new JButton("Line"));
+        buttons.add(new JButton("Path"));
+        buttons.add(new JButton("closePath"));
+        buttons.add(new JButton("fillPath"));
         buttons.add(new JButton("Undo"));
+        buttons.add(new JButton("Print"));
 
-        size = new JTextField("10");
+        size = new JTextField("1");
+        sampleColor = new JPanel();
 
         rgb = new ArrayList<JTextField>();
         rgb.add(new JTextField("0"));
         rgb.add(new JTextField("0"));
         rgb.add(new JTextField("0"));
+
+        delay = 10;
+        time = new Timer(delay, this);
+        time.start();
     }
 
     public void setUpGUI() {
@@ -56,7 +62,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         cp.add(editorCanvas, BorderLayout.CENTER);
 
-        panel.setLayout(new GridLayout(10,1));
+        panel.setLayout(new GridLayout(14,1));
 
         for (JButton button: buttons) {
             panel.add(button);
@@ -64,6 +70,9 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         }
 
         panel.add(size);
+
+        sampleColor.setBackground(Color.BLACK);
+        panel.add(sampleColor);
 
         for (JTextField color: rgb) {
             panel.add(color);
@@ -83,7 +92,17 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         mouse.setText("(" + e.getX() + ", " + e.getY() + ")");
     }
 
-    public void createRectangle(MouseEvent e, boolean init) {
+    private Color getColor() {
+        if (this.rgb == null) return new Color(0, 0, 0);
+
+        int r = Integer.parseInt(rgb.get(0).getText());
+        int g = Integer.parseInt(rgb.get(1).getText());
+        int b = Integer.parseInt(rgb.get(2).getText());
+
+        return new Color(r, g, b);
+    }
+
+    private void createRectangle(MouseEvent e, boolean init) {
         if (init) {
             x1 = e.getX();
             y1 = e.getY();
@@ -100,13 +119,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         double w = Math.abs(x2 - x1);
         double h = Math.abs(y2 - y1);
 
-        int r = Integer.parseInt(rgb.get(0).getText());
-        int g = Integer.parseInt(rgb.get(1).getText());
-        int b = Integer.parseInt(rgb.get(2).getText());
-
-        Color color = new Color(r, g , b);
-
-        drawObj = new Rectangle(x, y, w, h, color);
+        drawObj = new Rectangle(x, y, w, h, getColor());
 
         editorCanvas.removeLastDrawingObject();
         editorCanvas.addDrawingObject(drawObj);
@@ -114,7 +127,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
     }
 
-    public void createEllipse(MouseEvent e, boolean init) {
+    private void createEllipse(MouseEvent e, boolean init) {
         if (init) {
             x1 = e.getX();
             y1 = e.getY();
@@ -131,13 +144,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         double w = Math.abs(x2 - x1);
         double h = Math.abs(y2 - y1);
 
-        int r = Integer.parseInt(rgb.get(0).getText());
-        int g = Integer.parseInt(rgb.get(1).getText());
-        int b = Integer.parseInt(rgb.get(2).getText());
-
-        Color color = new Color(r, g , b);
-
-        drawObj = new Ellipse(x, y, w, h, color);
+        drawObj = new Ellipse(x, y, w, h, getColor());
 
         editorCanvas.removeLastDrawingObject();
         editorCanvas.addDrawingObject(drawObj);
@@ -145,7 +152,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
     }
 
-    public void createLine(MouseEvent e, boolean init) {
+    private void createLine(MouseEvent e, boolean init) {
         double setSize = Integer.parseInt(size.getText());
 
         if (init) {
@@ -159,21 +166,54 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         x2 = e.getX();
         y2 = e.getY();
 
-        // double x = (x2 > x1) ? x1: x2;
-        // double y = (y2 > y1) ? y1: y2;
-
-        int r = Integer.parseInt(rgb.get(0).getText());
-        int g = Integer.parseInt(rgb.get(1).getText());
-        int b = Integer.parseInt(rgb.get(2).getText());
-
-        Color color = new Color(r, g , b);
-
-        drawObj = new Line(x1, y1, x2, y2, setSize, color);
+        drawObj = new Line(x1, y1, x2, y2, setSize, getColor());
 
         editorCanvas.removeLastDrawingObject();
         editorCanvas.addDrawingObject(drawObj);
 
         // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
+    }
+
+    private void createPath(MouseEvent e, boolean init) {
+        double setSize = Integer.parseInt(size.getText());
+
+        ArrayList<double[]> points = new ArrayList<double[]>();
+        double[] point = new double[2];
+
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            
+            point[0] = x1;
+            point[1] = y1;
+            points.add(point);
+
+            drawObj = new Path(points, setSize, getColor());
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = e.getX();
+        y2 = e.getY();
+
+        Path pathObj = (Path) drawObj;
+        pathObj.addPath(x2, y2);
+        editorCanvas.repaint();
+
+        // editorCanvas.removeLastDrawingObject();
+        // editorCanvas.addDrawingObject(drawObj);
+
+        // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
+    }
+
+    private void closePath(Path p) {
+        p.toggleClose();
+        editorCanvas.repaint();
+    }
+
+    private void fillPath(Path p) {
+        p.toggleFill();
+        editorCanvas.repaint();
     }
 
     private void drawProcess(MouseEvent e, boolean init) {
@@ -189,6 +229,11 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         if (drawObject == "Line") {
             createLine(e, init);
+            return;
+        }
+
+        if (drawObject == "Path") {
+            createPath(e, init);
             return;
         }
     }
@@ -207,9 +252,38 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
             drawObject = "Line";
         }
 
-        if (e.getSource() == buttons.get(buttons.size() - 1)) {
+        if (e.getSource() == buttons.get(3)) {
+            drawObject = "Path";
+        }
+
+        if (e.getSource() == buttons.get(4)) {
+            if (drawObj instanceof Path) {
+                Path pathObj = (Path) drawObj;
+                closePath(pathObj);
+            }
+        }
+
+        if (e.getSource() == buttons.get(5)) {
+            if (drawObj instanceof Path) {
+                Path pathObj = (Path) drawObj;
+                fillPath(pathObj);
+            }
+        }
+
+        if (e.getSource() == buttons.get(buttons.size() - 2)) {
             editorCanvas.removeLastDrawingObject();
-            return;
+        }
+
+        if (e.getSource() == buttons.get(buttons.size() - 1)) {
+            ArrayList<DrawingObject> drawObjects = editorCanvas.getDrawingObjects();
+
+            for (DrawingObject drawObject: drawObjects) {
+                System.out.println(drawObject.getAttributes());
+            }
+        }
+
+        if (e.getSource() == rgb.get(0) || e.getSource() == rgb.get(1) || e.getSource() == rgb.get(2)) {
+            sampleColor.setBackground(getColor());
         }
     }
 
