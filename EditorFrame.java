@@ -36,6 +36,10 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         buttons = new ArrayList<JButton>();
         buttons.add(new JButton("Rectangle"));
         buttons.add(new JButton("Ellipse"));
+        buttons.add(new JButton("Square"));
+        buttons.add(new JButton("Circle"));
+        buttons.add(new JButton("Triangle"));
+        buttons.add(new JButton("Hexagon"));
         buttons.add(new JButton("Line"));
         buttons.add(new JButton("Path"));
         buttons.add(new JButton("closePath"));
@@ -62,7 +66,7 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         cp.add(editorCanvas, BorderLayout.CENTER);
 
-        panel.setLayout(new GridLayout(14,1));
+        panel.setLayout(new GridLayout(18,1));
 
         for (JButton button: buttons) {
             panel.add(button);
@@ -123,15 +127,13 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         editorCanvas.removeLastDrawingObject();
         editorCanvas.addDrawingObject(drawObj);
-
-        // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
     }
 
     private void createEllipse(MouseEvent e, boolean init) {
         if (init) {
             x1 = e.getX();
             y1 = e.getY();
-            drawObj = new Rectangle(x1, y1, 0, 0, Color.BLUE);
+            drawObj = new Ellipse(x1, y1, 0, 0, Color.BLUE);
             editorCanvas.addDrawingObject(drawObj);
             return;
         }
@@ -148,8 +150,95 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
 
         editorCanvas.removeLastDrawingObject();
         editorCanvas.addDrawingObject(drawObj);
+    }
 
-        // System.out.printf("Rectangle(%f, %f, %f, %f, Color.BLUE)\n", x, y, w, h);
+    private void createSquare(MouseEvent e, boolean init) {
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            drawObj = new Square(x1, y1, 0, Color.BLUE);
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = e.getX();
+        y2 = e.getY();
+
+        double x = (x2 > x1) ? x1: x2;
+        double y = (y2 > y1) ? y1: y2;
+        double s = (Math.abs(x1 - x2) > Math.abs(y1 - y2)) ? Math.abs(x1 - x2): Math.abs(y1 - y2);
+
+        drawObj = new Square(x, y, s, getColor());
+
+        editorCanvas.removeLastDrawingObject();
+        editorCanvas.addDrawingObject(drawObj);
+    }
+
+    private void createCircle(MouseEvent e, boolean init) {
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            drawObj = new Circle(x1, y1, 0, Color.BLUE);
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = e.getX();
+        y2 = e.getY();
+
+        double x = (x2 > x1) ? x1: x2;
+        double y = (y2 > y1) ? y1: y2;
+        double s = (Math.abs(x1 - x2) > Math.abs(y1 - y2)) ? Math.abs(x1 - x2): Math.abs(y1 - y2);
+
+        drawObj = new Circle(x, y, s, getColor());
+
+        editorCanvas.removeLastDrawingObject();
+        editorCanvas.addDrawingObject(drawObj);
+    }
+
+    private void createTriangle(MouseEvent e, boolean init) {
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            drawObj = new Triangle(x1, y1, x1, y1, x1, y1, Color.BLUE);
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = (e.getX() > x1) ? e.getX(): x1;
+        y2 = (e.getY() > y1) ? e.getY(): y1;
+        double x = (x2 > x1) ? x1: x1;
+        double y = (y2 > y1) ? y1: y2;
+
+        double x3 = x + (x - e.getX());
+        double y3 = (y2 > y) ? y2: y;
+
+        drawObj = new Triangle(x, y, x2, y2, x3, y3, getColor());
+
+        editorCanvas.removeLastDrawingObject();
+        editorCanvas.addDrawingObject(drawObj);
+    }
+
+    private void createHexagon(MouseEvent e, boolean init) {
+        if (init) {
+            x1 = e.getX();
+            y1 = e.getY();
+            drawObj = new Hexagon(x1, y1, 0, Color.BLUE);
+            editorCanvas.addDrawingObject(drawObj);
+            return;
+        }
+
+        x2 = e.getX();
+        y2 = e.getY();
+
+        double x = (x2 > x1) ? x1: x2;
+        double y = (y2 > y1) ? y1: y2;
+        double s = (Math.abs(x1 - x2) > Math.abs(y1 - y2)) ? Math.abs(x1 - x2): Math.abs(y1 - y2);
+
+        drawObj = new Hexagon(x, y, s, getColor());
+
+        editorCanvas.removeLastDrawingObject();
+        editorCanvas.addDrawingObject(drawObj);
     }
 
     private void createLine(MouseEvent e, boolean init) {
@@ -227,6 +316,26 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
             return;
         }
 
+        if (drawObject == "Square") {
+            createSquare(e, init);
+            return;
+        }
+
+        if (drawObject == "Circle") {
+            createCircle(e, init);
+            return;
+        }
+
+        if (drawObject == "Triangle") {
+            createTriangle(e, init);
+            return;
+        }
+
+        if (drawObject == "Hexagon") {
+            createHexagon(e, init);
+            return;
+        }
+
         if (drawObject == "Line") {
             createLine(e, init);
             return;
@@ -249,21 +358,37 @@ public class EditorFrame implements ActionListener, MouseListener, MouseMotionLi
         }
 
         if (e.getSource() == buttons.get(2)) {
-            drawObject = "Line";
+            drawObject = "Square";
         }
 
         if (e.getSource() == buttons.get(3)) {
-            drawObject = "Path";
+            drawObject = "Circle";
         }
 
         if (e.getSource() == buttons.get(4)) {
+            drawObject = "Triangle";
+        }
+
+        if (e.getSource() == buttons.get(5)) {
+            drawObject = "Hexagon";
+        }
+
+        if (e.getSource() == buttons.get(6)) {
+            drawObject = "Line";
+        }
+
+        if (e.getSource() == buttons.get(7)) {
+            drawObject = "Path";
+        }
+
+        if (e.getSource() == buttons.get(8)) {
             if (drawObj instanceof Path) {
                 Path pathObj = (Path) drawObj;
                 closePath(pathObj);
             }
         }
 
-        if (e.getSource() == buttons.get(5)) {
+        if (e.getSource() == buttons.get(9)) {
             if (drawObj instanceof Path) {
                 Path pathObj = (Path) drawObj;
                 fillPath(pathObj);
