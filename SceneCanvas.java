@@ -12,6 +12,7 @@ public class SceneCanvas extends JComponent implements ActionListener {
     // Instantiate shapes below:
     private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
     private DrawingObject c1 = new Circle(300, 300, 200, Color.RED);
+    private DrawingObject t1 = new Triangle(300, 300, 600, 300, 450, 500, Color.MAGENTA);
     private DrawingObject l1 = new Line(50, 500, 600, 400, 50, Color.GREEN);
 
     public SceneCanvas() {
@@ -24,6 +25,7 @@ public class SceneCanvas extends JComponent implements ActionListener {
         // Add instantiated shapes to the ArrayList below:
         drawObjects.add(s1);
         drawObjects.add(c1);
+        drawObjects.add(t1);
         drawObjects.add(l1);
 
         time.start();
@@ -52,6 +54,8 @@ public class SceneCanvas extends JComponent implements ActionListener {
         s1.adjustPosition(.2, .3);
         s1.adjustRotation(.4);
         c1.adjustPosition(.2, -.15);
+        t1.adjustPosition(.3, 0);
+        t1.adjustRotation(.7);
         l1.adjustPosition(-.03, -.15);
         l1.adjustRotation(-.2);
         this.repaint();
