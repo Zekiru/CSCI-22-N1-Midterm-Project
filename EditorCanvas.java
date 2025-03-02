@@ -18,7 +18,7 @@ public class EditorCanvas extends JComponent {
 
         // Add instantiated shapes to the ArrayList below:
         // drawObjects.add(obj);
-        
+        drawObjects.add(new Car(Color.GREEN));
     }
 
     @Override

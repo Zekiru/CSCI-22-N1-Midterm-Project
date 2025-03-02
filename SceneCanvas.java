@@ -10,6 +10,12 @@ public class SceneCanvas extends JComponent implements ActionListener {
     private Timer time;
 
     // Instantiate shapes below:
+    private DrawingObject sky = new Rectangle(0, 0, 800, 600, new Color(71, 224, 255));
+    
+    private DrawingObject sun = new Circle(650, 20, 80, new Color(255, 247, 15));
+    private DrawingObject road = new Rectangle(0.000000, 317.000000, 800, 290, new Color(25, 26, 28));
+
+    // Test Shapes:
     private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
     private DrawingObject c1 = new Circle(300, 300, 200, Color.RED);
     private DrawingObject t1 = new Triangle(300, 300, 600, 300, 450, 500, Color.MAGENTA);
@@ -20,15 +26,17 @@ public class SceneCanvas extends JComponent implements ActionListener {
         this.setPreferredSize(new Dimension(800, 600));
         this.drawObjects = new ArrayList<DrawingObject>();
         this.time = new Timer(10, this); // Timer triggers ActionListener.
-        
-        
 
         // Add instantiated shapes to the ArrayList below:
+        drawObjects.add(sky);
+        drawObjects.add(sun);
+        drawObjects.add(road);
         drawObjects.add(s1);
         drawObjects.add(c1);
         drawObjects.add(t1);
         drawObjects.add(h1);
         drawObjects.add(l1);
+        drawObjects.add(new Car(Color.BLUE));
 
         time.start();
     }
