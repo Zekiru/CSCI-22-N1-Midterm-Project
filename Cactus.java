@@ -5,9 +5,7 @@ import java.util.ArrayList;
 public class Cactus implements DrawingObject{
 
     private ArrayList<DrawingObject> cacti;
-    // private double speed;
     
-
     public Cactus() {
          cacti = new ArrayList<DrawingObject>();
         //cactus1
@@ -29,7 +27,7 @@ public class Cactus implements DrawingObject{
         cacti.add(new Circle(655.000000, 315.000000, 17.000000, new Color(1, 107, 1)));
         cacti.add(new Circle(688.000000, 280.000000, 29.000000, new Color(1, 107, 1)));
         cacti.add(new Circle(731.000000, 292.000000, 15.000000, new Color(1, 107, 1)));
-        //cactus 5//
+        //cactus 5
         cacti.add(new Rectangle(260.000000, 302.000000, 12.000000, 29.000000, new Color(25, 52, 1)));
         cacti.add(new Circle(260.000000, 295.000000, 12.000000, new Color(25, 52, 1)));
 
@@ -56,44 +54,27 @@ public class Cactus implements DrawingObject{
         }
     }
 
-    public DrawingObject getDrawObject() {
-        return this;
-    }
-
-    public String getAttributes() {
-        return "Cactus";
-    }
     public double[] getPosition() {
         return null;
     }
 
-    @Override
     public void setPosition(double x, double y) {
         //
     }
 
-    @Override
     public void setSize(double w, double h) {
         //
     }
 
-    @Override
     public void setColor(Color c) {
         //
     }
 
-    @Override
     public void adjustPosition(double x, double y) {
         //
     }
 
-    @Override
     public void adjustRotation(double rotation) {
-        //
-    }
-
-    @Override
-    public void adjustRotation(double rotation, double x, double y) {
         //
     }
     

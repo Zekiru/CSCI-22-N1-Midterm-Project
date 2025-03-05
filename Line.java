@@ -4,7 +4,6 @@ import java.awt.geom.*;
 public class Line implements DrawingObject{
     
     private double x1, y1, x2, y2, size, rotation, xRotate, yRotate;
-    // private double[][] endpoints;
     private Color color;
 
     public Line(double x1, double y1, double x2, double y2, double size, Color color) {
@@ -17,15 +16,17 @@ public class Line implements DrawingObject{
         this.xRotate = (x1 + x2) / 2;
         this.yRotate = (y1 + y2) / 2;
         this.color = color;
-        // this.endpoints = new double[4][2];
     }
 
-    public double[][] diameterEndPoints(double a, double b, double m, double r) {
-        // Calculate the discriminant (the part inside the square root)
+    public double[][] diameterEndPoints(double a, double b, double m, double r) { 
+        /* Using the Quadratic formula to calculate a made up Circle(a, b)'s' diameter 
+        endpoints relative to the slope of the diameter */
+
+        // Calculate the discriminant (the part inside the square root of the Quadratic Formula)
         double discriminant = Math.pow(-2 * a - 2 * m * m * a, 2) 
             - 4 * (1 + m * m) * (Math.pow(a, 2) + m * m * Math.pow(a, 2) - Math.pow(r, 2));
 
-        // If the discriminant is negative, there is no real solution
+        // If the discriminant is negative, there is no real solution:
         if (discriminant < 0) {
             double[][] noSolution = {{0, 0}, {0, 0}};
             return noSolution;
@@ -44,7 +45,6 @@ public class Line implements DrawingObject{
         return endpoints;
     }
 
-    @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
         Path2D.Double line = new Path2D.Double();
@@ -57,12 +57,12 @@ public class Line implements DrawingObject{
 
         double r = size / 2;
 
-        if (m1 == 0) {
+        if (m1 == 0) { // Manual plotting the points:
             line.moveTo(x1, y1 - r);
             line.lineTo(x2, y2 - r);
             line.lineTo(x2, y2 + r);
             line.lineTo(x1, y1 + r);
-        } else {
+        } else { // If the line is perfectly horizontal, the solution below breaks:
             double[][] endpoints1 = diameterEndPoints(x1, y1, m2, r);
             double[][] endpoints2 = diameterEndPoints(x2, y2, m2, r);
 
@@ -80,10 +80,6 @@ public class Line implements DrawingObject{
 
         g2d.fill(line);
         g2d.setTransform(reset);
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -117,15 +113,5 @@ public class Line implements DrawingObject{
         this.xRotate = (x1 + x2) / 2;
         this.yRotate = (y1 + y2) / 2;
         this.rotation += rotation;
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        this.xRotate = (x1 + x2) / 2 + x;
-        this.yRotate = (y1 + y2) / 2 + y;
-        this.rotation += rotation;
-    }
-
-    public String getAttributes() {
-        return String.format("Line(%f, %f, %f, %f, %f, new Color(%d, %d, %d));\n", x1, y1, x2, y2, size, color.getRed(), color.getGreen(), color.getBlue());
     }
 }

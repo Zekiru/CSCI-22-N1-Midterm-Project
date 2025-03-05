@@ -60,45 +60,27 @@ public class RoadStrips implements DrawingObject{
         }
     }
 
-    public DrawingObject getDrawObject() {
-        return this;
-    }
-
-    public String getAttributes() {
-        return "RoadStrips";
-    }
-
     public double[] getPosition() {
         return null;
     }
 
-    @Override
     public void setPosition(double x, double y) {
         //
     }
 
-    @Override
     public void setSize(double w, double h) {
         //
     }
 
-    @Override
     public void setColor(Color c) {
         //
     }
 
-    @Override
     public void adjustPosition(double x, double y) {
         //
     }
 
-    @Override
     public void adjustRotation(double rotation) {
-        //
-    }
-
-    @Override
-    public void adjustRotation(double rotation, double x, double y) {
         //
     }
     

@@ -39,10 +39,6 @@ public class Hexagon implements DrawingObject{
         g2d.setTransform(reset);
     }
 
-    public DrawingObject getDrawObject() {
-        return this;
-    }
-
     public double[] getPosition() {
         double[] position = {this.x, this.y};
         return position;
@@ -76,9 +72,5 @@ public class Hexagon implements DrawingObject{
         this.xRotate = this.x + (size/2) + x;
         this.yRotate = this.y + (size/2) + y;
         this.rotation += rotation;
-    }
-
-    public String getAttributes() {
-        return String.format("Hexagon(%f, %f, %f, new Color(%d, %d, %d));\n", x, y, size, color.getRed(), color.getGreen(), color.getBlue());
     }
 }

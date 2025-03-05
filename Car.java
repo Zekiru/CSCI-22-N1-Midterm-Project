@@ -56,7 +56,6 @@ public class Car implements DrawingObject{
         parts.add(new Circle(523.000000, 443.000000, 20.000000, new Color(123, 123, 123)));
     }
 
-    @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
         for (DrawingObject part: parts) {
@@ -69,10 +68,6 @@ public class Car implements DrawingObject{
     public void spinTires(double speed) {
         fronttireSpin.adjustRotation(speed);
         reartireSpin.adjustRotation(speed);
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -97,13 +92,5 @@ public class Car implements DrawingObject{
 
     public void adjustRotation(double rotation) {
         //
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        //
-    }
-
-    public String getAttributes() {
-        return "Car";
     }
 }

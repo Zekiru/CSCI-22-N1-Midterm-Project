@@ -21,7 +21,6 @@ public class Triangle implements DrawingObject{
         this.color = color;
     }
 
-    @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
         Path2D.Double shape = new Path2D.Double();
@@ -37,10 +36,6 @@ public class Triangle implements DrawingObject{
 
         g2d.fill(shape);
         g2d.setTransform(reset);
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -79,15 +74,5 @@ public class Triangle implements DrawingObject{
         this.xRotate = (((x1 < x2) ? x1: (x2 < x3) ? x2: x3) + ((x1 > x2) ? x1: (x2 > x3) ? x2: x3)) / 2;
         this.yRotate = (((y1 < y2) ? y1: (y2 < y3) ? y2: y3) + ((y1 > y2) ? y1: (y2 > y3) ? y2: y3)) / 2;
         this.rotation += rotation;
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        this.xRotate = (((x1 < x2) ? x1: (x2 < x3) ? x2: x3) + ((x1 > x2) ? x1: (x2 > x3) ? x2: x3)) / 2 + x;
-        this.yRotate = (((y1 < y2) ? y1: (y2 < y3) ? y2: y3) + ((y1 > y2) ? y1: (y2 > y3) ? y2: y3)) / 2 + y;
-        this.rotation += rotation;
-    }
-
-    public String getAttributes() {
-        return String.format("Triangle(%f, %f, %f, %f, %f, %f, new Color(%d, %d, %d));\n", x1, y1, x2, y2, x3, y3, color.getRed(), color.getGreen(), color.getBlue());
     }
 }

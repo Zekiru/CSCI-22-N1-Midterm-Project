@@ -6,7 +6,6 @@ public class Path implements DrawingObject{
     
     private ArrayList<double[]> points;
     private double size, rotation, xMin, xMax, yMin, yMax, xRotate, yRotate;
-    // private double[][] endpoints;
     private Color color;
     private boolean shape, fill;
 
@@ -34,7 +33,6 @@ public class Path implements DrawingObject{
         this.yRotate = (yMin + yMax) / 2;
 
         this.color = color;
-        // this.endpoints = new double[4][2];
     }
 
     public Path(ArrayList<double[]> points, double size, boolean fill, Color color) {
@@ -61,34 +59,8 @@ public class Path implements DrawingObject{
         this.yRotate = (yMin + yMax) / 2;
 
         this.color = color;
-        // this.endpoints = new double[4][2];
     }
 
-    public double[][] diameterEndPoints(double a, double b, double m, double r) {
-        // Calculate the discriminant (the part inside the square root)
-        double discriminant = Math.pow(-2 * a - 2 * m * m * a, 2) 
-            - 4 * (1 + m * m) * (Math.pow(a, 2) + m * m * Math.pow(a, 2) - Math.pow(r, 2));
-
-        // If the discriminant is negative, there is no real solution
-        if (discriminant < 0) {
-            double[][] noSolution = {{0, 0}, {0, 0}};
-            return noSolution;
-        }
-
-        // Calculate x using the quadratic formula (both + and - cases)
-        double x1 = (2 * a + 2 * m * m * a + Math.sqrt(discriminant)) / (2 * (1 + m * m));
-        double x2 = (2 * a + 2 * m * m * a - Math.sqrt(discriminant)) / (2 * (1 + m * m));
-
-        // Calculate y for each x value
-        double y1 = m * (x1 - a) + b;
-        double y2 = m * (x2 - a) + b;
-
-        double[][] endpoints = {{x1, y1}, {x2, y2}};
-
-        return endpoints;
-    }
-
-    @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
 
@@ -113,10 +85,6 @@ public class Path implements DrawingObject{
             }
 
             if (!fill) {
-                // System.out.printf("(%f, %f) to (%f, %f)\n", x1, y1, x2, y2);
-
-                // new Line(100, 100, 600, 100, 20, Color.BLACK).draw(g2d);
-
                 new Circle(x1 - size/2, y1 - size/2, size, color).draw(g2d);
                 new Line(x1, y1, x2, y2, size, color).draw(g2d);
                 if (i == points.size() - 1) new Circle(x2 - size/2, y2 - size/2, size, color).draw(g2d);
@@ -152,10 +120,6 @@ public class Path implements DrawingObject{
             i++;
         }
 
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -212,33 +176,5 @@ public class Path implements DrawingObject{
         this.xRotate = (xMin + xMax) / 2;
         this.yRotate = (yMin + yMax) / 2;
         this.rotation += rotation;
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        this.xRotate = (xMin + xMax) / 2 + x;
-        this.yRotate = (yMin + yMax) / 2 + y;
-        this.rotation += rotation;
-    }
-
-    public String getAttributes() {
-        String path = "ArrayList<double[]> points = new ArrayList<double[]>;\ndouble[] point = new double[2]\n";
-
-        for (double[] point: points) {
-            path += String.format("\npoint[0] = %f;\npoint[1] = %f;\npoints.add(point);\n", point[0], point[1]);
-        }
-
-        String modifier;
-
-        if (this.shape) {
-            modifier = (fill) ? " true," : " false,";
-        } else {
-            modifier = "";
-        }
-
-        path += String.format("\nPath(ArrayList<double[]> points, %f,%s new Color(%d, %d, %d))\n", size, modifier, color.getRed(), color.getGreen(), color.getBlue());;
-
-        
-
-        return path;
     }
 }

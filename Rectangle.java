@@ -17,7 +17,6 @@ public class Rectangle implements DrawingObject{
         this.color = color;
     }
 
-    @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
         Rectangle2D.Double shape = new Rectangle2D.Double(x, y, w, h);
@@ -27,10 +26,6 @@ public class Rectangle implements DrawingObject{
 
         g2d.fill(shape);
         g2d.setTransform(reset);
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -61,15 +56,5 @@ public class Rectangle implements DrawingObject{
         this.xRotate = x + (w/2);
         this.yRotate = y + (h/2);
         this.rotation += rotation;
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        this.xRotate = this.x + (this.w/2) + x;
-        this.yRotate = this.y + (this.h/2) + y;
-        this.rotation += rotation;
-    }
-
-    public String getAttributes() {
-        return String.format("Rectangle(%f, %f, %f, %f, new Color(%d, %d, %d));\n", x, y, w, h, color.getRed(), color.getGreen(), color.getBlue());
     }
 }

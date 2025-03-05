@@ -7,8 +7,6 @@ public class Cloud implements DrawingObject{
     private ArrayList<DrawingObject> cloudParts;
 
     public Cloud() {
-
-        
         cloudParts = new ArrayList<DrawingObject>();
         cloudParts.add(new Ellipse(71.000000-80, 112.000000+20, 189.000000, 49.000000, new Color(231, 233, 233)));        
         cloudParts.add(new Ellipse(193.000000-80, 89.000000+20, 178.000000, 67.000000, new Color(231, 233, 233)));        
@@ -38,9 +36,11 @@ public class Cloud implements DrawingObject{
     @Override
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
+
         for (DrawingObject clp: cloudParts) {
             clp.draw(g2d);
         }
+
         g2d.setTransform(reset);
     }
 
@@ -51,10 +51,6 @@ public class Cloud implements DrawingObject{
                 clp.setPosition(800, clp.getPosition()[1]);
             }
         }
-    }
-
-    public DrawingObject getDrawObject() {
-        return this;
     }
 
     public double[] getPosition() {
@@ -79,13 +75,5 @@ public class Cloud implements DrawingObject{
 
     public void adjustRotation(double rotation) {
         //
-    }
-
-    public void adjustRotation(double rotation, double x, double y) {
-        //
-    }
-
-    public String getAttributes() {
-        return "Cloud";
     }
 }

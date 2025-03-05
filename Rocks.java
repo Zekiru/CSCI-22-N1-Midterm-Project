@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public class Rocks implements DrawingObject{
 
     private ArrayList<DrawingObject> rocks;
-    // private double speed;
-    
 
     public Rocks() {
         rocks = new ArrayList<DrawingObject>();
@@ -52,45 +50,27 @@ public class Rocks implements DrawingObject{
         }
     }
 
-    public DrawingObject getDrawObject() {
-        return this;
-    }
-
-    public String getAttributes() {
-        return "Rocks";
-    }
     public double[] getPosition() {
         return null;
     }
 
-    @Override
     public void setPosition(double x, double y) {
         //
     }
 
-    @Override
     public void setSize(double w, double h) {
         //
     }
 
-    @Override
     public void setColor(Color c) {
         //
     }
 
-    @Override
     public void adjustPosition(double x, double y) {
         //
     }
 
-    @Override
     public void adjustRotation(double rotation) {
         //
     }
-
-    @Override
-    public void adjustRotation(double rotation, double x, double y) {
-        //
-    }
-    
 }

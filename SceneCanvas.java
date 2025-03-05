@@ -80,7 +80,7 @@ public class SceneCanvas extends JComponent implements ActionListener {
             roadStrips.moveStrips(10 * speed);
 
             Cloud clouds = (Cloud) this.clouds;
-            clouds.moveClouds(0.5 * speed);
+            clouds.moveClouds(0.2 + 0.5 * speed);
             
             Rocks rocks = (Rocks) this.rocks;
             rocks.moveRocks(5 * speed);
