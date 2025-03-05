@@ -18,7 +18,10 @@ public class EditorCanvas extends JComponent {
 
         // Add instantiated shapes to the ArrayList below:
         // drawObjects.add(obj);
-        drawObjects.add(new Car(Color.GREEN));
+        drawObjects.add(new Rectangle(0.000000, 0.000000, 803.000000, 607.000000, new Color(191, 229, 239))); //sky
+        drawObjects.add(new Circle(636.000000, -76.000000, 191.000000, new Color(255, 235, 91))); // sun
+        drawObjects.add(new Rectangle(0.000000, 331.000000, 812.000000, 289.000000, new Color(213, 182, 144))); // sand     
+        drawObjects.add(new Rectangle(0.000000, 399.000000, 816.000000, 212.000000, new Color(123, 123, 123)));  //road
     }
 
     @Override

@@ -10,14 +10,15 @@ public class SceneCanvas extends JComponent implements ActionListener {
     private Timer time;
 
     // Instantiate shapes below:
-    private DrawingObject sky = new Rectangle(0, 0, 800, 600, new Color(71, 224, 255));
-    private DrawingObject sun = new Circle(650, 20, 80, new Color(255, 247, 15));
-
-    private DrawingObject road = new Rectangle(0.000000, 317.000000, 800, 290, new Color(25, 26, 28));
+    private DrawingObject sky = new Rectangle(0.000000, 0.000000, 800.000000, 600.000000, new Color(191, 229, 239));
+    private DrawingObject sun = new Circle(636.000000, -76.000000, 191.000000, new Color(255, 235, 91));
+    private DrawingObject sand = new Rectangle(0.000000, 331.000000, 812.000000, 289.000000, new Color(213, 182, 144));
+    private DrawingObject road = new Rectangle(0.000000, 399.000000, 816.000000, 212.000000, new Color(123, 123, 123));
     private DrawingObject roadStrips = new RoadStrips();
-
-
-    private DrawingObject mainCar = new Car(Color.BLUE);
+    private DrawingObject clouds = new Cloud();
+    private DrawingObject rocks = new Rocks();
+    private DrawingObject cactus = new Cactus();
+    private DrawingObject mainCar = new Car(new Color(43, 66, 87));
 
     // Test Shapes:
     // private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
@@ -34,10 +35,12 @@ public class SceneCanvas extends JComponent implements ActionListener {
         // Add instantiated shapes to the ArrayList below:
         drawObjects.add(sky);
         drawObjects.add(sun);
-
+        drawObjects.add(sand);
         drawObjects.add(road);
         drawObjects.add(roadStrips);
-
+        drawObjects.add(clouds);
+        drawObjects.add(rocks);
+        drawObjects.add(cactus);
         drawObjects.add(mainCar);
         // drawObjects.add(s1);
         // drawObjects.add(c1);
@@ -79,11 +82,19 @@ public class SceneCanvas extends JComponent implements ActionListener {
         // l1.adjustRotation(-.2);
 
         Car mainCar = (Car) this.mainCar;
-        mainCar.spinTires(15);
+        mainCar.spinTires(10);
 
         RoadStrips roadStrips = (RoadStrips) this.roadStrips;
-        roadStrips.moveStrips(20);
+        roadStrips.moveStrips(10);
+
+        Cloud clouds = (Cloud) this.clouds;
+        clouds.moveClouds(0.5);
         
+        Rocks rocks = (Rocks) this.rocks;
+        rocks.moveRocks(5);
+
+        Cactus cactus = (Cactus) this.cactus;
+        cactus.moveCactus(5);
         this.repaint();
     }
 

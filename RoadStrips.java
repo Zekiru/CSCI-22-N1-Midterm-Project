@@ -10,17 +10,18 @@ public class RoadStrips implements DrawingObject{
 
     public RoadStrips() {
         roadStrips = new ArrayList<DrawingObject>();
-        // this.speed = speed;
 
-        roadStrips.add(new Rectangle(700, 471.000000, 100, 32.000000, new Color(180, 180, 180)));
+        roadStrips.add(new Rectangle(26.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
+        roadStrips.add(new Triangle(26.000000, 511.000000, 42.000000, 545.000000, 10.000000, 545.000000, new Color(123, 123, 123)));
+        roadStrips.add(new Triangle(178.000000, 511.000000, 194.000000, 545.000000, 162.000000, 545.000000, new Color(245, 243, 245)));
+        
+        roadStrips.add(new Rectangle(326.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
+        roadStrips.add(new Triangle(326.000000, 511.000000, 342.000000, 545.000000, 310.000000, 545.000000, new Color(123, 123, 123)));
+        roadStrips.add(new Triangle(478.000000, 511.000000, 494.000000, 545.000000, 462.000000, 545.000000, new Color(245, 243, 245)));
 
-        roadStrips.add(new Rectangle(500, 471.000000, 100, 32.000000, new Color(180, 180, 180)));
-
-        roadStrips.add(new Rectangle(300, 471.000000, 100, 32.000000, new Color(180, 180, 180)));
-
-        roadStrips.add(new Rectangle(100, 471.000000, 100, 32.000000, new Color(180, 180, 180)));
-
-        roadStrips.add(new Rectangle(-100, 471.000000, 100, 32.000000, new Color(180, 180, 180)));
+        roadStrips.add(new Rectangle(626.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
+        roadStrips.add(new Triangle(626.000000, 511.000000, 642.000000, 545.000000, 610.000000, 545.000000, new Color(123, 123, 123)));
+        roadStrips.add(new Triangle(778.000000, 511.000000, 794.000000, 545.000000, 762.000000, 545.000000, new Color(245, 243, 245)));
     }
 
     public void draw(Graphics2D g2d) {
@@ -37,8 +38,8 @@ public class RoadStrips implements DrawingObject{
         for (DrawingObject roadStrip: roadStrips) {
             roadStrip.adjustPosition(-speed, 0);
 
-            if (roadStrip.getPosition()[0] <= -182) {
-                roadStrip.setPosition(800, 471);
+            if (roadStrip.getPosition()[0] <= -175) {
+                roadStrip.setPosition(800, 511);
             }
         }
     }
