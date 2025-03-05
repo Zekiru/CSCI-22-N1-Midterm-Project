@@ -8,47 +8,41 @@ public class SceneCanvas extends JComponent implements ActionListener {
     
     private ArrayList<DrawingObject> drawObjects;
     private Timer time;
+    private double speed;
+    private boolean moving;
 
     // Instantiate shapes below:
-    private DrawingObject sky = new Rectangle(0.000000, 0.000000, 800.000000, 600.000000, new Color(191, 229, 239));
-    private DrawingObject sun = new Circle(636.000000, -76.000000, 191.000000, new Color(255, 235, 91));
-    private DrawingObject sand = new Rectangle(0.000000, 331.000000, 812.000000, 289.000000, new Color(213, 182, 144));
-    private DrawingObject road = new Rectangle(0.000000, 399.000000, 816.000000, 212.000000, new Color(123, 123, 123));
-    private DrawingObject roadStrips = new RoadStrips();
-    private DrawingObject clouds = new Cloud();
-    private DrawingObject rocks = new Rocks();
-    private DrawingObject cactus = new Cactus();
-    private DrawingObject mainCar = new Car(new Color(43, 66, 87));
-
-    // Test Shapes:
-    // private DrawingObject s1 = new Square(100, 100, 200, Color.BLUE);
-    // private DrawingObject c1 = new Circle(300, 300, 200, Color.RED);
-    // private DrawingObject t1 = new Triangle(300, 300, 600, 300, 450, 500, Color.MAGENTA);
-    // private DrawingObject h1 = new Hexagon(150, 400, 100, Color.ORANGE);
-    // private DrawingObject l1 = new Line(50, 500, 600, 400, 50, Color.GREEN);
+    private DrawingObject sky, sun, sand, road, roadStrips, clouds, rocks, cactus, mainCar;
 
     public SceneCanvas() {
         this.setPreferredSize(new Dimension(800, 600));
         this.drawObjects = new ArrayList<DrawingObject>();
         this.time = new Timer(10, this); // Timer triggers ActionListener.
+        this.speed = 0;
+        this.moving = false;
+
+        this.sky = new Rectangle(0.000000, 0.000000, 800.000000, 600.000000, new Color(191, 229, 239));
+        this.sun = new Circle(636.000000, -76.000000, 191.000000, new Color(255, 235, 91));
+        this.sand = new Rectangle(0.000000, 331.000000, 812.000000, 289.000000, new Color(213, 182, 144));
+        this.road = new Rectangle(0.000000, 399.000000, 816.000000, 212.000000, new Color(123, 123, 123));
+        this.roadStrips = new RoadStrips();
+        this.clouds = new Cloud();
+        this.rocks = new Rocks();
+        this.cactus = new Cactus();
+        this.mainCar = new Car(new Color(43, 66, 87));
 
         // Add instantiated shapes to the ArrayList below:
-        drawObjects.add(sky);
-        drawObjects.add(sun);
-        drawObjects.add(sand);
-        drawObjects.add(road);
-        drawObjects.add(roadStrips);
-        drawObjects.add(clouds);
-        drawObjects.add(rocks);
-        drawObjects.add(cactus);
-        drawObjects.add(mainCar);
-        // drawObjects.add(s1);
-        // drawObjects.add(c1);
-        // drawObjects.add(t1);
-        // drawObjects.add(h1);
-        // drawObjects.add(l1);
+        this.drawObjects.add(sky);
+        this.drawObjects.add(sun);
+        this.drawObjects.add(sand);
+        this.drawObjects.add(road);
+        this.drawObjects.add(roadStrips);
+        this.drawObjects.add(clouds);
+        this.drawObjects.add(rocks);
+        this.drawObjects.add(cactus);
+        this.drawObjects.add(mainCar);
 
-        time.start();
+        this.time.start();
     }
 
     @Override
@@ -71,34 +65,37 @@ public class SceneCanvas extends JComponent implements ActionListener {
     // Perform methods per ActionEvent triggered by the Timer:
     @Override
     public void actionPerformed(ActionEvent e) {
-        // s1.adjustPosition(.2, .3);
-        // s1.adjustRotation(.4);
-        // c1.adjustPosition(.2, -.15);
-        // t1.adjustPosition(.3, 0);
-        // t1.adjustRotation(.7);
-        // h1.adjustPosition(0, -.7);
-        // h1.adjustRotation(1);
-        // l1.adjustPosition(-.03, -.15);
-        // l1.adjustRotation(-.2);
 
-        Car mainCar = (Car) this.mainCar;
-        mainCar.spinTires(10);
+        if (moving) {
+            if (speed < 1) speed += 0.005;
+        } else {
+            if (speed > 0) speed -= 0.01;
+        }
 
-        RoadStrips roadStrips = (RoadStrips) this.roadStrips;
-        roadStrips.moveStrips(10);
+        if (e.getSource() == time) {
+            Car mainCar = (Car) this.mainCar;
+            mainCar.spinTires(10 * speed);
 
-        Cloud clouds = (Cloud) this.clouds;
-        clouds.moveClouds(0.5);
-        
-        Rocks rocks = (Rocks) this.rocks;
-        rocks.moveRocks(5);
+            RoadStrips roadStrips = (RoadStrips) this.roadStrips;
+            roadStrips.moveStrips(10 * speed);
 
-        Cactus cactus = (Cactus) this.cactus;
-        cactus.moveCactus(5);
-        this.repaint();
+            Cloud clouds = (Cloud) this.clouds;
+            clouds.moveClouds(0.5 * speed);
+            
+            Rocks rocks = (Rocks) this.rocks;
+            rocks.moveRocks(5 * speed);
+
+            Cactus cactus = (Cactus) this.cactus;
+            cactus.moveCactus(5 * speed);
+            this.repaint();
+        }
     }
 
     public void addDrawingObject(DrawingObject d) {
         drawObjects.add(d);
+    }
+
+    public void isMoving() {
+        this.moving = !this.moving;
     }
 }

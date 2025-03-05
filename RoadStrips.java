@@ -4,42 +4,58 @@ import java.util.ArrayList;
 
 public class RoadStrips implements DrawingObject{
 
-    private ArrayList<DrawingObject> roadStrips;
+    private ArrayList<DrawingObject[]> roadStrips;
     // private double speed;
     
 
     public RoadStrips() {
-        roadStrips = new ArrayList<DrawingObject>();
+        roadStrips = new ArrayList<DrawingObject[]>();
 
-        roadStrips.add(new Rectangle(26.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
-        roadStrips.add(new Triangle(26.000000, 511.000000, 42.000000, 545.000000, 10.000000, 545.000000, new Color(123, 123, 123)));
-        roadStrips.add(new Triangle(178.000000, 511.000000, 194.000000, 545.000000, 162.000000, 545.000000, new Color(245, 243, 245)));
-        
-        roadStrips.add(new Rectangle(326.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
-        roadStrips.add(new Triangle(326.000000, 511.000000, 342.000000, 545.000000, 310.000000, 545.000000, new Color(123, 123, 123)));
-        roadStrips.add(new Triangle(478.000000, 511.000000, 494.000000, 545.000000, 462.000000, 545.000000, new Color(245, 243, 245)));
+        DrawingObject[] roadstrip1 = new DrawingObject[3];
+        DrawingObject[] roadstrip2 = new DrawingObject[3];
+        DrawingObject[] roadstrip3 = new DrawingObject[3];
 
-        roadStrips.add(new Rectangle(626.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245)));
-        roadStrips.add(new Triangle(626.000000, 511.000000, 642.000000, 545.000000, 610.000000, 545.000000, new Color(123, 123, 123)));
-        roadStrips.add(new Triangle(778.000000, 511.000000, 794.000000, 545.000000, 762.000000, 545.000000, new Color(245, 243, 245)));
+        roadstrip1[0] = new Rectangle(26.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245));
+        roadstrip1[1] = new Triangle(26.000000, 511.000000, 42.000000, 545.000000, 10.000000, 545.000000, new Color(123, 123, 123));
+        roadstrip1[2] = new Triangle(178.000000, 511.000000, 194.000000, 545.000000, 162.000000, 545.000000, new Color(245, 243, 245));
+
+        roadStrips.add(roadstrip1);
+
+        roadstrip2[0] = new Rectangle(326.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245));
+        roadstrip2[1] = new Triangle(326.000000, 511.000000, 342.000000, 545.000000, 310.000000, 545.000000, new Color(123, 123, 123));
+        roadstrip2[2] = new Triangle(478.000000, 511.000000, 494.000000, 545.000000, 462.000000, 545.000000, new Color(245, 243, 245));
+
+        roadStrips.add(roadstrip2);
+
+        roadstrip3[0] = new Rectangle(626.000000, 511.000000, 152.000000, 34.000000, new Color(245, 243, 245));
+        roadstrip3[1] = new Triangle(626.000000, 511.000000, 642.000000, 545.000000, 610.000000, 545.000000, new Color(123, 123, 123));
+        roadstrip3[2] = new Triangle(778.000000, 511.000000, 794.000000, 545.000000, 762.000000, 545.000000, new Color(245, 243, 245));
+
+        roadStrips.add(roadstrip3);
     }
 
     public void draw(Graphics2D g2d) {
         AffineTransform reset = g2d.getTransform();
 
-        for (DrawingObject roadStrip: roadStrips) {
-            roadStrip.draw(g2d);
+        for (DrawingObject[] roadStrip: roadStrips) {
+            roadStrip[0].draw(g2d);
+            roadStrip[1].draw(g2d);
+            roadStrip[2].draw(g2d);
         }
 
         g2d.setTransform(reset);
     }
 
     public void moveStrips(double speed) {
-        for (DrawingObject roadStrip: roadStrips) {
-            roadStrip.adjustPosition(-speed, 0);
+        for (DrawingObject[] roadStrip: roadStrips) {
+            roadStrip[0].adjustPosition(-speed, 0);
+            roadStrip[1].adjustPosition(-speed, 0);
+            roadStrip[2].adjustPosition(-speed, 0);
 
-            if (roadStrip.getPosition()[0] <= -175) {
-                roadStrip.setPosition(800, 511);
+            if (roadStrip[0].getPosition()[0] <= -175) {
+                roadStrip[0].setPosition(800, 511);
+                roadStrip[1].setPosition(800, 511);
+                roadStrip[2].setPosition(952, 511);
             }
         }
     }
@@ -51,6 +67,7 @@ public class RoadStrips implements DrawingObject{
     public String getAttributes() {
         return "RoadStrips";
     }
+
     public double[] getPosition() {
         return null;
     }
